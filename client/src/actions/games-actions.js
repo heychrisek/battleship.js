@@ -54,9 +54,6 @@ export const handlePlacement = (gameId, x_pos, y_pos) => {
       dispatch(initiatePlacement(gameId, x_pos, y_pos, 2)),
       dispatch(initiatePlacement(gameId, rand5(), rand5(), 1))
     ])
-    .then(function() {
-      console.log("here we are")
-    })
   }
 }
 
@@ -67,8 +64,8 @@ export const setAttack = (response) => {
   }
 }
 
-export const initiateAttack = (gameId, x_pos, y_pos) => {
-  const params = {game_id: gameId, x_pos, y_pos, user_id: 2}
+export const initiateAttack = (gameId, x_pos, y_pos, user_id) => {
+  const params = {game_id: gameId, x_pos, y_pos, user_id}
   const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
@@ -81,5 +78,14 @@ export const initiateAttack = (gameId, x_pos, y_pos) => {
       .then(function(response) {
         dispatch(setAttack(response))
       })
+  }
+}
+
+export const handleAttack = (gameId, x_pos, y_pos) => {
+  return dispatch => {
+    Promise.all([
+      dispatch(initiateAttack(gameId, x_pos, y_pos, 2)),
+      dispatch(initiateAttack(gameId, rand5(), rand5(), 1))
+    ])
   }
 }

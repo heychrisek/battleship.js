@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import BattleshipContainer from './BattleshipContainer'
+import BattleshipContainer from './Battleship/Container'
 import './App.css';
 
 class App extends Component {

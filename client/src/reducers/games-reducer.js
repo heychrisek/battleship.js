@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case types.START_GAME:
       console.log("new state", Object.assign({}, state, {inProgressGame: action.id}))
-      return Object.assign({}, state, {inProgressGame: action.id});
+      return Object.assign({}, state, {inProgressGame: action.id, shipPlacements: [], attackPlacements: []});
     case types.SET_PLACEMENT:
       const shipPlacements = [
         ...state.shipPlacements,
