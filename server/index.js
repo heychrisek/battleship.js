@@ -1,3 +1,4 @@
+const locus = require('locus')
 const express = require('express');
 require('express-namespace');
 const bodyParser = require('body-parser')
@@ -33,14 +34,14 @@ app.listen(4000, function() {
       });
       // POST placements
       app.post('/:id/placement', function(req, res) {
-        const {x_pos, y_pos, user_id} = req.body
-        const game_id = req.params.id
+        const {x_pos, y_pos, user_id} = req.body;
+        const game_id = req.params.id;
         knex('placements').insert({
           game_id: game_id,
           x_pos, y_pos, user_id
-        }, ['id'])
+        }, 'id')
         .then(function(id) {
-          res.send({game_id, x_pos, y_pos, placement_id: id[0]});
+          res.send({game_id, x_pos, y_pos, user_id, id: id[0]});
         })
       });
       // POST moves
@@ -52,7 +53,14 @@ app.listen(4000, function() {
           x_pos, y_pos, user_id
         }, 'id')
         .then(function(id) {
-          res.send({game_id, placement_id: id[0]});
+          return knex('placements').whereNot('user_id', user_id).andWhere('game_id', game_id).andWhere('x_pos', x_pos).andWhere('y_pos', y_pos)
+          .then(function(hits) {
+            const hit = hits.length > 0
+            knex('moves').where('id', Number(id)).update('hit', hit)
+            .then(function() {
+              res.send({game_id, x_pos, y_pos, user_id, id: id[0], hit});
+            })
+          })
         })
       });
     });

@@ -17,7 +17,9 @@ class BattleshipGrid extends Component {
               {R.times(function(n) {
                 const onClick = clickHandler ? clickHandler.bind(null, i, n) : () => {}
                 const isPlaced = R.any(R.equals([i, n]), xyPairs)
-                const bgColor = isPlaced ? "blue" : "white"
+                const isHit = isPlaced && R.last(placements).hit
+                let bgColor = isPlaced ? "#ADD8E6" : "white"
+                if (isHit) { bgColor = "red" }
                 return <div key={`col${n}`}
                             onClick={onClick}
                             style={{flexDirection: "column",
@@ -36,18 +38,32 @@ class BattleshipGrid extends Component {
 
 class BattleshipContainer extends Component {
   render() {
+    const attack = this.props.actions.initiateAttack.bind(null, this.props.inProgressGame)
+    const attackFn = this.props.shipPlacements.length < 5
+      ? function() { alert("Place all five of your ships first."); }
+      : attack
+    const placeFn = this.props.shipPlacements.length >= 5
+      ? function() { alert("No more ships to place. Attack!"); }
+      : this.props.actions.handlePlacement.bind(null, this.props.inProgressGame)
     return (
       <div className="BattleshipContainer">
         <button onClick={this.props.actions.initiateGame}>Start New Game</button>
         <span>Game #{this.props.inProgressGame}</span>
         {this.props.inProgressGame != null
           ? <div style={{display:"flex", flexDirection:"column"}}>
-              <BattleshipGrid size={50} /> (cpu board)
+              <div style={{display:"flex", flexDirection:"row"}}>
+                <BattleshipGrid size={50}
+                                attackFn={attackFn}
+                                placements={this.props.attackPlacements} />
+                <h6>CPU</h6>
+              </div>
               &nbsp;
-              <BattleshipGrid size={50}
-                              placeFn={this.props.actions.initiatePlacement.bind(null, this.props.inProgressGame)}
-                              placements={this.props.shipPlacements} />
-                              (your board)
+              <div style={{display:"flex", flexDirection:"row"}}>
+                <BattleshipGrid size={50}
+                                placeFn={placeFn}
+                                placements={this.props.shipPlacements} />
+                <h6>You</h6>
+              </div>
             </div>
           : null}
       </div>
@@ -59,7 +75,8 @@ function mapStateToProps(state, props) {
   return {
     inProgressGame: state.games.inProgressGame,
     allGames: state.games.allGames,
-    shipPlacements: state.games.shipPlacements
+    shipPlacements: R.filter(function(sp){ return sp.user_id === 2 }, state.games.shipPlacements),
+    attackPlacements: state.games.attackPlacements
   };
 }
 
