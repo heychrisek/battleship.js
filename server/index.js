@@ -7,11 +7,11 @@ app.use(bodyParser.json());
 const db_config = require('./knexfile');
 const knex = require('knex')(db_config);
 
-app.listen(3000, function() {
-  console.log('Battleship server listening on port 3000...');
+app.listen(4000, function() {
+  console.log('Battleship server listening on port 4000...');
 
   app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/../client/build/index.html');
   });
 
   app.namespace('/api', function() {
@@ -33,23 +33,23 @@ app.listen(3000, function() {
       });
       // POST placements
       app.post('/:id/placement', function(req, res) {
-        const {x_pos, y_pos, player_number} = req.body
+        const {x_pos, y_pos, user_id} = req.body
         const game_id = req.params.id
         knex('placements').insert({
           game_id: game_id,
-          x_pos, y_pos, player_number
-        }, 'id')
+          x_pos, y_pos, user_id
+        }, ['id'])
         .then(function(id) {
-          res.send({game_id, placement_id: id[0]});
+          res.send({game_id, x_pos, y_pos, placement_id: id[0]});
         })
       });
       // POST moves
       app.post('/:id/moves', function(req, res) {
-        const {x_pos, y_pos, player_number} = req.body;
+        const {x_pos, y_pos, user_id} = req.body;
         const game_id = req.params.id;
-        knex('movess').insert({
+        knex('moves').insert({
           game_id: game_id,
-          x_pos, y_pos, player_number
+          x_pos, y_pos, user_id
         }, 'id')
         .then(function(id) {
           res.send({game_id, placement_id: id[0]});
