@@ -17,6 +17,8 @@ Run `npm install` or `yarn`. Run `npm run start`. Client will run at port 3000.
 
 # Roadmap
 
+- [ ] Deploy application
+
 ### Server
 - [x] API Endpoints using semantically correct status codes and request methods (GET, POST, PUT, DELETE, etc)
     - [x] Create a game
