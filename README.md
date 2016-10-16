@@ -1,6 +1,8 @@
 # Battleship.js
 A battleship implementation built using a Node/Express web server and Redux/React client. [Online demo available](http://cek.io/battleship/index.html), deployed using Heroku for server and Github Pages for client.
 
+![battleship.gif](https://s18.postimg.org/5s4788bxl/battleship.gif)
+
 # Usage
 
 Clone this repository and open both the client and the terminal.
