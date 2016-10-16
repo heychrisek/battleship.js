@@ -1,5 +1,5 @@
 # Battleship.js
-A battleship implementation built using a Node/Express web server and Redux/React client.
+A battleship implementation built using a Node/Express web server and Redux/React client. [Online demo available](http://cek.io/battleship/index.html), deployed using Heroku for server and Github Pages for client.
 
 # Usage
 
