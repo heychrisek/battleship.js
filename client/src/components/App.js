@@ -8,7 +8,7 @@ class App extends Component {
         <div style={{textAlign: "center"}}>
           <p>
             Welcome to Battleship.js, a modified implementation of Battleship built with a Node.js/Express web server and a
-            Redux/React client. The<a href="https://github.com/heychrisek/battleship.js">full source code is on Github</a>.
+            Redux/React client. The <a href="https://github.com/heychrisek/battleship.js">full source code is on Github</a>.
           </p>
         </div>
         <BattleshipContainer />
