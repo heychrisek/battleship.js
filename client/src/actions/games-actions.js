@@ -2,6 +2,8 @@ import * as types from './action-types';
 import fetch from 'isomorphic-fetch';
 import {cellOverlaps, filterByUser, getCPUCoords} from '../helpers';
 
+const URL = 'http://localhost:4000'
+
 const headers = {
   'Accept': 'application/json',
   'Content-Type': 'application/json'
@@ -16,7 +18,7 @@ export const setGames = (games) => {
 
 export const fetchGames = () => {
   return dispatch => {
-    return fetch(`http://localhost:4000/api/games`)
+    return fetch(`${URL}/api/games`)
       .then(function(response) {
         return response.json()
       })
@@ -35,7 +37,7 @@ export const startGame = (game) => {
 
 export const initiateGame = () => {
   return dispatch => {
-    return fetch(`http://localhost:4000/api/games/new`, {method: 'POST'})
+    return fetch(`${URL}/api/games/new`, {method: 'POST'})
       .then(function(response) {
         return response.json()
       })
@@ -55,7 +57,7 @@ export const setPlacement = (response) => {
 export const initiatePlacement = (game_id, x_pos, y_pos, user_id) => {
   const params = {game_id, x_pos, y_pos, user_id};
   return dispatch => {
-    return fetch(`http://localhost:4000/api/games/${game_id}/placement`, {method: 'POST', body: JSON.stringify(params), headers})
+    return fetch(`${URL}/api/games/${game_id}/placement`, {method: 'POST', body: JSON.stringify(params), headers})
       .then(function(response) {
         return response.json()
       })
@@ -91,7 +93,7 @@ export const setAttack = (response) => {
 export const initiateAttack = (gameId, x_pos, y_pos, user_id) => {
   const params = {game_id: gameId, x_pos, y_pos, user_id};
   return dispatch => {
-    return fetch(`http://localhost:4000/api/games/${gameId}/moves`, {method: 'POST', body: JSON.stringify(params), headers})
+    return fetch(`${URL}/api/games/${gameId}/moves`, {method: 'POST', body: JSON.stringify(params), headers})
       .then(function(response) {
         return response.json()
       })
@@ -126,7 +128,7 @@ export const removeGame = (id) => {
 
 export const handleDeleteGame = (gameId) => {
   return dispatch => {
-    return fetch(`http://localhost:4000/api/games/${gameId}`, {method: 'DELETE'})
+    return fetch(`${URL}/api/games/${gameId}`, {method: 'DELETE'})
     .then(function(response) {
         return response.json()
     })
@@ -145,7 +147,7 @@ export const loadGame = (data) => {
 
 export const handleLoadGame = (id) => {
   return dispatch => {
-    return fetch(`http://localhost:4000/api/games/${id}`)
+    return fetch(`${URL}/api/games/${id}`)
     .then(function(response) {
         return response.json()
     })
