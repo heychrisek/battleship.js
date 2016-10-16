@@ -96,7 +96,7 @@ app.listen(4000, function() {
             const hit = hits.length > 0
             knex('moves').where('id', Number(id)).update('hit', hit)
             .then(function() {
-              knex('moves').whereNot('user_id', user_id).andWhere('game_id', game_id).andWhere('hit', true)
+              knex('moves').where('user_id', user_id).andWhere('game_id', game_id).andWhere('hit', true)
               .then(function(allUserHits) {
                 const complete = allUserHits.length === NUM_SHIPS
                 const winner = complete ? user_id : null
