@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as gamesActions from '../actions/games-actions'; 
+import * as gamesActions from '../../actions/games-actions'; 
 import UserBoard from './UserBoard'
-import {filterByUser, filterHits} from '../helpers';
-import '../Battleship.css';
+import {filterByUser, filterHits} from '../../helpers';
+import '../../styles/Battleship.css';
 
 const NUM_SHIPS = 10;
 
@@ -45,6 +45,7 @@ class BattleshipContainer extends Component {
         {inProgressGame ? <p>Game #{inProgressGame}</p> : null}
         {inProgressGame != null
           ? <div style={{display:"flex", flexDirection:"column"}} className={mode}>
+              {gameOver ? <div>Game Over. {cpuWins ? "CPU wins." : "You win!"}</div> : null}
               <UserBoard clickFn={attackFn}
                          attacks={userAttacks}
                          ships={cpuShips}
@@ -58,7 +59,6 @@ class BattleshipContainer extends Component {
                          user="You"
                          score={userScore}
                          className="UserBoard-user" />
-              {gameOver ? <div>Game Over. {cpuWins ? "CPU wins." : "You win!"}</div> : <div>GAME IN PROGRESS</div>}
             </div>
           : null}
       </div>

@@ -1,3 +1,7 @@
+.BattleshipContainer {
+  padding: 0 30px;
+}
+
 .placing .UserBoard-user .BattleshipCell:hover {
   background: #BFEFFF;
   cursor: pointer;

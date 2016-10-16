@@ -1,10 +1,11 @@
-const locus = require('locus')
 const express = require('express');
 require('express-namespace');
+
 const bodyParser = require('body-parser')
 const app = express();
 app.use(bodyParser.json());
-// handle CORS issues, respond to requests from client
+
+// handle CORS
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

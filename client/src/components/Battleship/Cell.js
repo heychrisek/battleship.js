@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {cellOverlaps} from '../helpers';
-import battleshipImg from '../../public/battleship.gif';
-import targetImg from '../../public/target.png';
-import '../Battleship.css';
+import {cellOverlaps} from '../../helpers';
+import battleshipImg from '../../../public/battleship.gif';
+import targetImg from '../../../public/target.png';
+import '../../styles/Battleship.css';
 
 export default class BattleshipCell extends Component {
   render() {
