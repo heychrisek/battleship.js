@@ -4,7 +4,7 @@ const initialState = {
   inProgressGame: null,
   allGames: [],
   shipPlacements: [],
-  attackPlacements: []
+  attackPlacements: [],
 }
 
 export default (state = initialState, action) => {

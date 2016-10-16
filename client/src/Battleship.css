@@ -1,0 +1,9 @@
+.placing .UserBoard-user .BattleshipCell:hover {
+  background: #BFEFFF;
+  cursor: pointer;
+}
+
+.attacking .UserBoard-cpu .BattleshipCell:hover {
+  background: #CD5C5C;
+  cursor: pointer;
+}

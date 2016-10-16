@@ -1,22 +1,51 @@
 import React, { Component } from 'react';
-import * as R from 'ramda'
+import {cellOverlaps} from '../helpers';
+import battleshipImg from '../../public/battleship.gif';
+import targetImg from '../../public/target.png';
+import '../Battleship.css';
 
 export default class BattleshipCell extends Component {
   render() {
-    const {attacks, clickFn, hideShips, x, y, ships} = this.props
-    const onClick = clickFn ? clickFn.bind(null, x, y) : () => {}
-    const cellHasShip = R.find(R.whereEq({x_pos:x, y_pos:y}), ships)
-    const cellAttacked = R.find(R.whereEq({x_pos:x, y_pos:y}), attacks)
-    const cellHit = cellHasShip && cellAttacked
-    let bgColor = "#fff"
-    if (cellHasShip) { bgColor = hideShips ? "#fff" : "blue" }
-    if (cellAttacked) { bgColor = "orange" }
-    if (cellHit) { bgColor = "red" }
+    const {attacks, clickFn, hideShips, x, y, ships} = this.props;
+
+    const onClick = clickFn ? clickFn.bind(null, x, y) : () => {};
+
+    const cellHasShip = cellOverlaps(x, y, ships);
+    const cellAttacked = cellOverlaps(x, y, attacks);
+    const cellHit = cellHasShip && cellAttacked;
+
+    let bgColor, innerContent;
+    if (cellHasShip) {
+      innerContent = hideShips
+        ? null
+        : <img src={battleshipImg}
+               role="presentation"
+               style={{width:50, paddingTop:3}} />;
+    };
+    if (cellAttacked) {
+      innerContent = <img src={targetImg}
+                          role="presentation"
+                          style={{width:30, paddingTop:10}}/>;
+      bgColor = '#BFEFFF';
+    };
+    if (cellHit) {
+      innerContent =
+        <div>
+          <img src={targetImg}
+               role="presentation"
+               style={{width:30, position:"absolute"}}/>
+          <img src={battleshipImg}
+               role="presentation"
+               style={{width:50, paddingTop:3}} />
+        </div>;
+      bgColor = '#CD5C5C';
+    };
     return <div onClick={onClick}
+                className="BattleshipCell"
                 style={{flexDirection: "column",
                         border: "1px solid teal",
                         width: 50,
                         height: 50,
-                        backgroundColor: bgColor}} />
-  }
-}
+                        backgroundColor: bgColor}}>{innerContent}</div>;
+  };
+};

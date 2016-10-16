@@ -3,14 +3,17 @@ import BattleshipGrid from './Grid'
 
 export default class UserBoard extends Component {
   render() {
-    const {attacks, clickFn, ships, user} = this.props;
+    const {attacks, className, clickFn, score, ships, user} = this.props;
     return (
-      <div style={{display:"flex", flexDirection:"row"}}>
+      <div style={{display:"flex", flexDirection:"row"}} className={className}>
         <BattleshipGrid clickFn={clickFn}
                         ships={ships}
                         attacks={attacks}
                         hideShips={user === "CPU"} />
-        <h6>{user}</h6>
+        <div style={{display:"flex", flexDirection:"column", textAlign:"left"}}>
+          <strong>{user}</strong>
+          <strong>Hits: {score}</strong>
+        </div>
       </div>
     );
   }
