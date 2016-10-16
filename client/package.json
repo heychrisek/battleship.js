@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "homepage": "http://heychrisek.github.io/battleship",
   "private": true,
   "devDependencies": {
     "react-scripts": "0.6.1"
