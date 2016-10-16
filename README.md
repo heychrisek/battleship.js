@@ -26,7 +26,7 @@ Run `npm install` or `yarn`. Run `npm run start`. Client will run at port 3000.
     - [x] Accept coordinates for the player’s next move
     - [x] Return the coordinates for the CPU’s next move
 - [ ] Refactor server/index.js (router, boot, etc.)
-- [ ] Endpoint testing
+- [ ] Tests: endpoint testing
 - [ ] Bugfix: cpu always attacks after user, even if game is over
 
 ### Client
@@ -44,7 +44,7 @@ Run `npm install` or `yarn`. Run `npm run start`. Client will run at port 3000.
     - [x] Can load previous games to see placements/moves/winner
 - [ ] Add user sessions so different users can track game history
 - [ ] Add leaderboard to track and rank winners
-- [ ] Component testing
-- [ ] Unit testing
+- [ ] Tests: component testing
+- [ ] Tests: unit test helpers.js
 - [ ] Bugfix: user wins aren't displayed on previous games list
 - [ ] Bugfix: update previous games "winner" column immediately
