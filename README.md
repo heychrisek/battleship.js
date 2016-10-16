@@ -27,6 +27,7 @@ Run `npm install` or `yarn`. Run `npm run start`. Client will run at port 3000.
     - [x] Return the coordinates for the CPU’s next move
 - [ ] Refactor server/index.js (router, boot, etc.)
 - [ ] Endpoint testing
+- [ ] Bugfix: cpu always attacks after user, even if game is over
 
 ### Client
 - [x] 5x5 starting board
@@ -45,3 +46,5 @@ Run `npm install` or `yarn`. Run `npm run start`. Client will run at port 3000.
 - [ ] Add leaderboard to track and rank winners
 - [ ] Component testing
 - [ ] Unit testing
+- [ ] Bugfix: user wins aren't displayed on previous games list
+- [ ] Bugfix: update previous games "winner" column immediately
