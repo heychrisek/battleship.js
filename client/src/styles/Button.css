@@ -1,0 +1,26 @@
+.Button {
+  background-color: #388E8E;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+}
+
+.Button:hover {
+  cursor: pointer;
+  background: #C0D9D9;
+}
+
+.Button-delete {
+  margin-right: 5px;
+  background: #b15853;
+}
+
+.Button-delete:hover {
+  cursor: pointer;
+  background: #c17a76;
+}

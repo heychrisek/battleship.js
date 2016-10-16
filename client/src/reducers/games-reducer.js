@@ -1,4 +1,5 @@
 import * as types from '../actions/action-types';
+import * as R from 'ramda';
 
 const initialState = {
   inProgressGame: null,
@@ -12,7 +13,8 @@ export default (state = initialState, action) => {
     case types.SET_GAMES:
       return Object.assign({}, state, {allGames: action.games});
     case types.START_GAME:
-      return Object.assign({}, state, {inProgressGame: action.id, shipPlacements: [], attackPlacements: []});
+      const allGames = [...state.allGames, action.game]
+      return Object.assign({}, state, {inProgressGame: action.game.id, shipPlacements: [], attackPlacements: [], allGames});
     case types.SET_PLACEMENT:
       const shipPlacements = [
         ...state.shipPlacements,
@@ -36,6 +38,12 @@ export default (state = initialState, action) => {
         }
       ]
       return Object.assign({}, state, {attackPlacements: attackPlacements});
+    case types.REMOVE_GAME:
+      const games = R.reject(R.propEq('id', Number(action.id)), state.allGames)
+      return Object.assign({}, state, {allGames: games});
+    case types.LOAD_GAME:
+      const {game, placements, moves} = action.data
+      return Object.assign({}, state, {inProgressGame: game.id, shipPlacements: placements, attackPlacements: moves});
     default:
       return state;
   }

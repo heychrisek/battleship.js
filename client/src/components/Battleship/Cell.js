@@ -20,12 +20,12 @@ export default class BattleshipCell extends Component {
         ? null
         : <img src={battleshipImg}
                role="presentation"
-               style={{width:50, paddingTop:3}} />;
+               style={{width:40, paddingTop:3}} />;
     };
     if (cellAttacked) {
       innerContent = <img src={targetImg}
                           role="presentation"
-                          style={{width:30, paddingTop:10}}/>;
+                          style={{width:20, padding:10}}/>;
       bgColor = '#BFEFFF';
     };
     if (cellHit) {
@@ -33,10 +33,10 @@ export default class BattleshipCell extends Component {
         <div>
           <img src={targetImg}
                role="presentation"
-               style={{width:30, position:"absolute"}}/>
+               style={{width:20, position:"absolute"}}/>
           <img src={battleshipImg}
                role="presentation"
-               style={{width:50, paddingTop:3}} />
+               style={{width:40, paddingTop:3}} />
         </div>;
       bgColor = '#CD5C5C';
     };
@@ -44,8 +44,8 @@ export default class BattleshipCell extends Component {
                 className="BattleshipCell"
                 style={{flexDirection: "column",
                         border: "1px solid teal",
-                        width: 50,
-                        height: 50,
+                        width: 40,
+                        height: 40,
                         backgroundColor: bgColor}}>{innerContent}</div>;
   };
 };

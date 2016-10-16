@@ -11,3 +11,42 @@
   background: #CD5C5C;
   cursor: pointer;
 }
+
+.Battleship-previousGames {
+  max-height: 550px;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  overflow-y: scroll;
+}
+
+.Battleship-previousGame {
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+}
+
+.Battleship-idCell,
+.Battleship-winnerCell {
+  width: 70px;
+  display: flex;
+  justify-content: center;
+}
+
+.Battleship-buttonCell,
+.Battleship-dateCell {
+  width: 90px;
+}
+
+.Battleship-transcript {
+  background: #D3D3D3;
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 4px;
+  height: 75px;
+}
+
+.Battleship-transcriptContent {
+  margin: 10px;
+  font-size: 12px;
+}

@@ -26,10 +26,10 @@ export const fetchGames = () => {
   };
 }
 
-export const startGame = (id) => {
+export const startGame = (game) => {
   return {
     type: types.START_GAME,
-    id
+    game
   };
 };
 
@@ -39,8 +39,8 @@ export const initiateGame = () => {
       .then(function(response) {
         return response.json()
       })
-      .then(function({id}) {
-        dispatch(startGame(id))
+      .then(function(game) {
+        dispatch(startGame(game))
       });
   };
 };
@@ -115,4 +115,42 @@ export const handleAttack = (gameId, x_pos, y_pos) => {
       ]);
     };
   };
+};
+
+export const removeGame = (id) => {
+  return {
+    type: types.REMOVE_GAME,
+    id
+  }
+}
+
+export const handleDeleteGame = (gameId) => {
+  return dispatch => {
+    return fetch(`http://localhost:4000/api/games/${gameId}`, {method: 'DELETE'})
+    .then(function(response) {
+        return response.json()
+    })
+    .then(function(response) {
+      dispatch(removeGame(response.id))
+    });
+  };
+};
+
+export const loadGame = (data) => {
+  return {
+    type: types.LOAD_GAME,
+    data
+  };
+};
+
+export const handleLoadGame = (id) => {
+  return dispatch => {
+    return fetch(`http://localhost:4000/api/games/${id}`)
+    .then(function(response) {
+        return response.json()
+    })
+    .then(function(response) {
+      dispatch(loadGame(response))
+    });
+  }; 
 };

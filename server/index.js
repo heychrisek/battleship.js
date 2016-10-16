@@ -1,3 +1,4 @@
+require('locus')
 const express = require('express');
 require('express-namespace');
 
@@ -9,8 +10,9 @@ app.use(bodyParser.json());
 
 // handle CORS
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   next();
 });
 
@@ -33,17 +35,37 @@ app.listen(4000, function() {
           res.send(games);
         })
       });
+      // GET game
+      app.get('/:id', function(req, res) {
+        const id = req.params.id;
+        Promise.all([
+          knex('games').where('id', id),
+          knex('placements').where('game_id', id),
+          knex('moves').where('game_id', id)
+        ])
+        .then(function(data) {
+          res.send({
+            game: data[0][0],
+            placements: data[1],
+            moves: data[2]
+          });
+        })
+      })
       // CREATE new game
       app.post('/new', function(req, res) {
-        knex('games').insert({completed: false, created_at: new Date()}, 'id')
-        .then(function(id) {
-          res.send({id: id[0]});
+        knex('games').insert({completed: false, created_at: new Date()}, '*')
+        .then(function(game) {
+          res.send(game[0]);
         });
       });
       // DELETE game
       app.delete('/:id', function(req, res) {
-        const id = req.params.id
-        knex('games').where('id', id).delete()
+        const id = req.params.id;
+        Promise.all([
+          knex('placements').where('game_id', Number(id)).delete(),
+          knex('moves').where('game_id', Number(id)).delete(),
+          knex('games').where('id', Number(id)).delete()
+        ])
         .then(function() {
           res.send({id});
         });
@@ -78,7 +100,7 @@ app.listen(4000, function() {
               .then(function(allUserHits) {
                 const complete = allUserHits.length === NUM_SHIPS
                 const winner = complete ? user_id : null
-                knex('games').where('id', game_id).update({'completed': complete, "winner_id": winner})
+                knex('games').where('id', game_id).update({'completed': complete, 'winner_id': winner})
                 .then(function() {
                   res.send({game_id, x_pos, y_pos, user_id, id: id[0], hit});
                 })

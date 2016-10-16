@@ -1,0 +1,14 @@
+.UserBoard-cpu {
+  padding-right: 200px;
+}
+
+.UserBoard-user {
+  padding-left: 200px;
+}
+
+.UserBoard-scores {
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}

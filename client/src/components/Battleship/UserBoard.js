@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BattleshipGrid from './Grid'
+import '../../styles/UserBoard.css';
 
 export default class UserBoard extends Component {
   render() {
@@ -10,7 +11,7 @@ export default class UserBoard extends Component {
                         ships={ships}
                         attacks={attacks}
                         hideShips={user === "CPU"} />
-        <div style={{display:"flex", flexDirection:"column", textAlign:"left"}}>
+        <div className="UserBoard-scores">
           <strong>{user}</strong>
           <strong>Hits: {score}</strong>
         </div>
