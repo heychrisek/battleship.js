@@ -7,6 +7,25 @@ const headers = {
   'Content-Type': 'application/json'
 };
 
+export const setGames = (games) => {
+  return {
+    type: types.SET_GAMES,
+    games
+  }
+}
+
+export const fetchGames = () => {
+  return dispatch => {
+    return fetch(`http://localhost:4000/api/games`)
+      .then(function(response) {
+        return response.json()
+      })
+      .then(function(response) {
+        dispatch(setGames(response))
+      });
+  };
+}
+
 export const startGame = (id) => {
   return {
     type: types.START_GAME,

@@ -1,6 +1,8 @@
 const express = require('express');
 require('express-namespace');
 
+const NUM_SHIPS = 10;
+
 const bodyParser = require('body-parser')
 const app = express();
 app.use(bodyParser.json());
@@ -24,9 +26,16 @@ app.listen(4000, function() {
 
   app.namespace('/api', function() {
     app.namespace('/games', function() {
+      // GET all games
+      app.get('/', function(req, res) {
+        knex('games')
+        .then(function(games) {
+          res.send(games);
+        })
+      });
       // CREATE new game
       app.post('/new', function(req, res) {
-        knex('games').insert({completed: false}, 'id')
+        knex('games').insert({completed: false, created_at: new Date()}, 'id')
         .then(function(id) {
           res.send({id: id[0]});
         });
@@ -65,7 +74,15 @@ app.listen(4000, function() {
             const hit = hits.length > 0
             knex('moves').where('id', Number(id)).update('hit', hit)
             .then(function() {
-              res.send({game_id, x_pos, y_pos, user_id, id: id[0], hit});
+              knex('moves').whereNot('user_id', user_id).andWhere('game_id', game_id).andWhere('hit', true)
+              .then(function(allUserHits) {
+                const complete = allUserHits.length === NUM_SHIPS
+                const winner = complete ? user_id : null
+                knex('games').where('id', game_id).update({'completed': complete, "winner_id": winner})
+                .then(function() {
+                  res.send({game_id, x_pos, y_pos, user_id, id: id[0], hit});
+                })
+              })
             })
           })
         })

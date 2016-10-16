@@ -9,8 +9,9 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case types.SET_GAMES:
+      return Object.assign({}, state, {allGames: action.games});
     case types.START_GAME:
-      console.log("new state", Object.assign({}, state, {inProgressGame: action.id}))
       return Object.assign({}, state, {inProgressGame: action.id, shipPlacements: [], attackPlacements: []});
     case types.SET_PLACEMENT:
       const shipPlacements = [
@@ -22,7 +23,6 @@ export default (state = initialState, action) => {
           y_pos: action.response.y_pos,
         }
       ]
-      console.log("new state", Object.assign({}, state, {shipPlacements: shipPlacements}))
       return Object.assign({}, state, {shipPlacements: shipPlacements});
     case types.SET_ATTACK:
       const attackPlacements = [
@@ -35,7 +35,6 @@ export default (state = initialState, action) => {
           hit: action.response.hit,
         }
       ]
-      console.log("new state", Object.assign({}, state, {attackPlacements: attackPlacements}))
       return Object.assign({}, state, {attackPlacements: attackPlacements});
     default:
       return state;

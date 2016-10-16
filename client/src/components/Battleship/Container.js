@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as gamesActions from '../../actions/games-actions'; 
+require('datejs')
 import UserBoard from './UserBoard'
 import {filterByUser, filterHits} from '../../helpers';
+import * as R from 'ramda';
 import '../../styles/Battleship.css';
 
 const NUM_SHIPS = 10;
@@ -14,8 +16,13 @@ const gameOverPrompt = function(winner, newGameFn) {
 };
 
 class BattleshipContainer extends Component {
+  componentDidMount() {
+    this.props.actions.fetchGames();
+  }
+
   render() {
-    const {actions, cpuAttacks, cpuHits, cpuShips, inProgressGame, userAttacks, userHits, userShips} = this.props;
+    const { actions, allGames, cpuAttacks, cpuHits, cpuShips, inProgressGame,
+            userAttacks, userHits, userShips } = this.props;
     const {handleAttack, handlePlacement, initiateGame} = actions;
 
     const userScore = userHits.length;
@@ -43,31 +50,39 @@ class BattleshipContainer extends Component {
       <div className="BattleshipContainer">
         <button onClick={initiateGame}>Start New Game</button>
         {inProgressGame ? <p>Game #{inProgressGame}</p> : null}
-        {inProgressGame != null
-          ? <div style={{display:"flex", flexDirection:"column"}} className={mode}>
-              {gameOver ? <div>Game Over. {cpuWins ? "CPU wins." : "You win!"}</div> : null}
-              <UserBoard clickFn={attackFn}
-                         attacks={userAttacks}
-                         ships={cpuShips}
-                         user={"CPU"}
-                         score={cpuScore}
-                         className="UserBoard-cpu" />
-              &nbsp;
-              <UserBoard clickFn={placeFn}
-                         attacks={cpuAttacks}
-                         ships={userShips}
-                         user="You"
-                         score={userScore}
-                         className="UserBoard-user" />
-            </div>
-          : null}
+        <div style={{display:"flex", flexDirection:"row"}}>
+          <div style={{display:"flex", flexDirection:"column"}}>
+            <h4>Previous Games</h4>
+            {R.map(function(game) {
+              return <div key={game.id}>{Date.parse(game.created_at).toShortDateString()} | {game.winner_id}</div>
+            }, allGames)}
+          </div>
+          {inProgressGame != null
+            ? <div style={{display:"flex", flexDirection:"column"}} className={mode}>
+                {gameOver ? <div>Game Over. {cpuWins ? "CPU wins." : "You win!"}</div> : null}
+                <UserBoard clickFn={attackFn}
+                           attacks={userAttacks}
+                           ships={cpuShips}
+                           user={"CPU"}
+                           score={cpuScore}
+                           className="UserBoard-cpu" />
+                &nbsp;
+                <UserBoard clickFn={placeFn}
+                           attacks={cpuAttacks}
+                           ships={userShips}
+                           user="You"
+                           score={userScore}
+                           className="UserBoard-user" />
+              </div>
+            : null}
+        </div>
       </div>
     );
   };
 };
 
 function mapStateToProps(state, props) {
-  const {allGames, attackPlacements, inProgressGame, shipPlacements, } = state.games;
+  const {allGames, attackPlacements, inProgressGame, shipPlacements} = state.games;
   const userAttacks = filterByUser(2, attackPlacements);
   const cpuAttacks = filterByUser(1, attackPlacements);
   return {
